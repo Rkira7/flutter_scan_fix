@@ -48,8 +48,11 @@ public class ScanPlugin implements FlutterPlugin, MethodCallHandler, ActivityAwa
   private QrCodeAsyncTask task;
 
   @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    this.flutterPluginBinding = flutterPluginBinding;
+  public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+      binding.getPlatformViewRegistry().registerViewFactory(
+              "scan_view",
+              new ScanViewFactory(binding.getBinaryMessenger())
+      );
   }
 
   private void configChannel(ActivityPluginBinding binding) {
@@ -79,9 +82,7 @@ public class ScanPlugin implements FlutterPlugin, MethodCallHandler, ActivityAwa
   public void onDetachedFromActivityForConfigChanges() {
   }
   @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    this.flutterPluginBinding = null;
-  }
+  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {}
 
   @Override
   public void onDetachedFromActivity() {
